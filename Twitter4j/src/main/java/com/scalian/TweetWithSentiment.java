@@ -26,7 +26,7 @@ public class TweetWithSentiment implements Serializable{
 
     @Override
     public String toString() {
-        return "TweetWithSentiment [texte=" + line + ", sentiment=" + sentiment + "]";
+        return "TweetWithSentiment [texte=" + line + ", sentiment=" + sentiment + "]\n\n";
     }
 
 }

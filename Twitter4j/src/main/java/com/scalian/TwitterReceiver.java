@@ -49,7 +49,7 @@ public class TwitterReceiver extends Receiver<Status>{
             	
             	@Override
 				public void onStatus(Status status) {
-            		System.out.println("\n\n TwitterReceiver:onStatus:status.getText(): .................\n"+status.getText());
+            		System.out.println("\n\n TwitterReceiver:onStatus: status received: .................\n"+status.getText() + "\n\n\n");
 					store(status);
 				}
             	

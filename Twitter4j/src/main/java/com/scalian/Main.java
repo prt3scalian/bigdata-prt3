@@ -99,7 +99,7 @@ public class Main {
             jssc.start();
 
           try {
-				Thread.sleep(300000);
+				Thread.sleep(120000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
