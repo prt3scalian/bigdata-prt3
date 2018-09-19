@@ -93,7 +93,7 @@ public class Main {
             	return sentiment;
             	});
             
-            sentimentDStream.print();
+            sentimentDStream.print(1000);
             
             System.out.println("SparkNamexTweet:start: starting Streaming computation by jssc.start()..........");
             jssc.start();
