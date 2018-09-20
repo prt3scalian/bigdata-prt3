@@ -8,6 +8,7 @@ import java.util.List;
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.spark.*;
 import org.apache.spark.api.java.function.*;
 import org.apache.spark.streaming.*;
@@ -63,8 +64,11 @@ public class Main {
 
         public void start(String keyword) throws TwitterException, IOException {
         	
+        	String sparkMasterUrl = StringUtils.isNotBlank(System.getenv("SPARK_MASTER_URL")) ? System.getenv("SPARK_MASTER_URL") : "local[2]";
+        	long jobDuration = StringUtils.isNotBlank(System.getenv("JOB_DURATION")) ? Long.parseLong(System.getenv("JOB_DURATION")) : 1; // unit == minute
+        	
         	// Create a local StreamingContext with two working thread and batch interval of 1 second
-        	SparkConf conf = new SparkConf().setMaster(System.getenv("SPARK_MASTER_URL"))
+        	SparkConf conf = new SparkConf().setMaster(sparkMasterUrl)
         									.setAppName("StreamTweetWithSentiment");
         	JavaStreamingContext jssc = new JavaStreamingContext(conf, Durations.milliseconds(500));
         	ConfigurationBuilder cb = new ConfigurationBuilder();
@@ -93,13 +97,14 @@ public class Main {
             	return sentiment;
             	});
             
-            sentimentDStream.print(1000);
+            sentimentDStream.print(10000);
             
             System.out.println("SparkNamexTweet:start: starting Streaming computation by jssc.start()..........");
             jssc.start();
 
           try {
-				Thread.sleep(120000);
+				Thread.sleep(jobDuration *60000); // unit == minute
+				
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
